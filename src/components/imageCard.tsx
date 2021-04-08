@@ -1,25 +1,21 @@
 import React from 'react';
-import './App.css';
-import logo from './logo.svg';
+import { Card, CardBody, CardFooter } from 'reactstrap';
 
-function ImageCard() {
+
+const ImageCard = ({data}:any) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Card>
+        
+        <CardBody style={{backgroundImage:`url('${data.raw}')`, backgroundRepeat: 'no-repeat', backgroundSize:'100% 100%', height:'300px'}}>
+            <div >
+               checked
+            </div>
+        </CardBody>
+        <CardFooter className="text-center">
+        <p>{data.name}</p>
+        <p>{data.album}</p>
+        </CardFooter>
+    </Card>
   );
 }
 

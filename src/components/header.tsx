@@ -4,7 +4,7 @@ import Headroom from 'react-headroom';
 
 function Header() {
   return (
-<Headroom style={{backgroundColor:"black"}}>
+<Headroom style={{backgroundColor:"black"}} >
  <div className="row ml-2 mr-2 pt-2 ">
     <div className="col-10">
     <h1>Photos</h1>
