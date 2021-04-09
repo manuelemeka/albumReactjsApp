@@ -1,0 +1,98 @@
+$body-bg: rgb(10, 10, 10);
+$card-bg: rgb(30, 30, 30);
+
+$card-color: #fff;
+$h1: rgba(200, 200, 200, 1);
+
+@import "~bootstrap/scss/bootstrap.scss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+.my-container {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.imageCard-menu {
+  background-color: rgba($color: #000000, $alpha: 0.5);
+}
+
+a {
+  color: rgba(200, 200, 200, 1);
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgba(200, 200, 200, 1);
+  text-decoration: none;
+}
+
+.card-footer {
+  color: rgba(200, 200, 200, 1);
+}
+
+h1 {
+  color: rgba(200, 200, 200, 1);
+}
+
+.dropzone {
+  width: 100%;
+  height: 20%;
+  background-color: rgb(30, 30, 30);
+  color: rgba(200, 200, 200, 1);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+}
+
+.child {
+  pointer-events: none;
+}
+
+.modal-bg {
+  background-color: rgb(10, 10, 10);
+  color: rgba(200, 200, 200, 1);
+}
+
+.form-control {
+  background-color: rgb(30, 30, 30);
+  color: rgba(200, 200, 200, 1);
+}
+
+.form-control:focus {
+  background-color: rgb(30, 30, 30);
+  color: rgba(200, 200, 200, 1);
+}
+
+.swal {
+  background-color: rgb(30, 30, 30);
+
+  .swal-text {
+    color: rgba(200, 200, 200, 1);
+  }
+
+  .swal-title {
+    color: rgba(200, 200, 200, 1);
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  background-color: rgb(0, 0, 0);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(0%);
+  width: 100%;
+}
+
+.skeleton {
+  color: #000;
+}
+
+.window {
+  margin-top: 100px;
+}

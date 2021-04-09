@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import './assets/scss/custom.scss';
 import Header from './components/header';
 import ImageCard from './components/imageCard';
+import Loader from './components/loader';
+import UploadModal from './components/uploader';
 import { FetchDocumentService } from './services/album';
+import { getCurrentColor } from './util/util';
 
+const color = getCurrentColor();
 const  App = () =>
  {
   const [data, setData] = useState<any[]>([]);
+  const [toDelete, setToDelete] = useState<any[]>([]);
   const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(25);
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
+  const [uploader, setUploader] = useState(false);
   
 
 
@@ -35,7 +40,20 @@ const  App = () =>
   
   },[]);
 
-  
+  const refresh = async () =>{
+    try {
+      const response = await FetchDocumentService({
+        "skip": skip,
+    "limit": limit
+      });
+      
+      setData(response?.documents);
+      setHasMore(true);
+      setLoading(false);
+    } catch (e) {
+
+    }
+  };
 
   const loadMore = async () => {
     setLoading(true);
@@ -47,7 +65,6 @@ const  App = () =>
       
       setHasMore(response?.documents.length>=25);
       setData([...data, ...response?.documents]);
-      //console.log([...data, {page:response?.documents}]);
       setSkip(skip+25);
       setLimit(limit);
       setLoading(false);
@@ -55,28 +72,39 @@ const  App = () =>
     } catch (e) {
 
     }
-    //executeScroll();
+
   }
+
+  const addToDelete = (album:string, documents:string) =>{
+     setToDelete([...toDelete, {album:album,documents:documents}]);
+  };
+
+  
+  const removeToDelete = (album:string, documents:string) =>{
+    const newList = toDelete.filter((item) => item.documents !== documents);
+    setToDelete(newList);
+  };
 
   return (
     
     
     <div className="App">
-    <Header />
+    <Header color={color} toggle={setUploader} toDelete={toDelete}/>
     <div className="my-container mt-5">
 
     <InfiniteScroll
-  dataLength={data.length} //This is important field to render the next data
+
+    className="window"
+  dataLength={data.length}
   next={loadMore}
   hasMore={hasMore}
-  loader={<h4>Loading...</h4>}
+  loader={<Loader />}
   endMessage={
     <p style={{ textAlign: 'center' }}>
-      <b>Yay! You have seen it all</b>
+      <b>No more photos to show</b>
     </p>
   }
-  // below props only if you need pull down functionality
-  refreshFunction={loadMore}
+  refreshFunction={refresh}
   pullDownToRefresh
   pullDownToRefreshThreshold={50}
   pullDownToRefreshContent={
@@ -89,40 +117,17 @@ const  App = () =>
   <div className="row">
   {data.map((doc: any)=>{
           
-          return <div className="col-lg-2"><p><ImageCard data={doc}/></p></div>
+          return <div className="col-lg-2"><p><ImageCard data={doc} addToDelete={addToDelete} removeToDelete={removeToDelete}/></p></div>
         })}
         </div>
 </InfiniteScroll>
-
-    {/* {
-    data && data.map((item)=>{
-      //console.log(document)
-      return <div className="row">
-
-      {
-        item.document.map((doc: any)=>{
-          
-          return <div className="col-lg"><p><ImageCard data={doc}/></p></div>
-        })
-      }
-      </div>
-    })
-  } */}
-
-
 </div>
-{/* {!loading&&<div className="row mt-5 mb-5">
-  <div className="col-lg-12 text-center" ref={myRef}>
-    <Button onClick={loadMore} >Load More</Button>
-  </div>
-</div>} */}
+  <UploadModal modal={uploader} toggle={setUploader} />
     </div>
     
   );
 }
 
 export default App;
-function FectDocumentService(arg0: { skip: number; limit: number; }) {
-  throw new Error('Function not implemented.');
-}
+
 
